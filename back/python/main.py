@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, send_file
+from flask import Flask, request, redirect, send_file
 import requests
 from text_to_image import *
 import json
@@ -7,8 +7,7 @@ app = Flask(__name__)
 
 api = Text2ImageAPI('https://api-key.fusionbrain.ai/',
                     '0E8304C916C8A0D2A63B6D58820DB253',
-                    'A4CA30389EC1BE639594E6C144523A14'
-                    )
+                    'A4CA30389EC1BE639594E6C144523A14')
 
 
 @app.route('/api/v1/models')
