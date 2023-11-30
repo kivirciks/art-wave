@@ -5,8 +5,8 @@ from math import log10
 import torch
 import torch.backends.cudnn as cudnn
 
-from SubPixelCNN.model import Net
-from progress_bar import progress_bar
+from ..SubPixelCNN.model import Net
+from ..progress_bar import progress_bar
 
 
 class SubPixelTrainer(object):
@@ -36,7 +36,7 @@ class SubPixelTrainer(object):
             self.criterion.cuda()
 
         self.optimizer = torch.optim.Adamax(self.model.parameters(), lr=0.01, alpha=0.99, eps=1e-08)
-        self.scheduler = torch.optim.lr_scheduler.MultiStepLR(self.optimizer, milestones=[50, 75, 100], gamma=0.5)  # lr decay
+        self.scheduler = torch.optim.lr_scheduler.MultiStepLR(self.optimizer, milestones=[50, 75, 100], gamma=0.5)
 
     def save(self):
         model_out_path = "SUB_model_path.pth"

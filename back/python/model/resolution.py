@@ -1,9 +1,8 @@
-from PIL import Image
 import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
+from PIL import Image
 from torchvision.transforms import ToTensor
-import sys
 
 
 def super_resolve(input_image, model_path, output_image='art.png'):
