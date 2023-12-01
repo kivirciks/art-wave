@@ -18,9 +18,10 @@ class Text2ImageAPI:
         data = response.json()
         return data[0]['id']
 
-    def generate(self, prompt, model, images=1, width=1024, height=1024):
+    def generate(self, prompt, model, negative_prompt, images=1, width=1024, height=1024):
         params = {
             "type": "GENERATE",
+            "negativePromptUnclip": f"{negative_prompt}",
             "numImages": images,
             "width": width,
             "height": height,

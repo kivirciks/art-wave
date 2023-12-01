@@ -4,8 +4,13 @@ import torch.backends.cudnn as cudnn
 from PIL import Image
 from torchvision.transforms import ToTensor
 
+# import sys
 
-def super_resolve(input_image, model_path, output_image='art.png'):
+# sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+model_path = 'SUB_model_path.pth'
+
+
+def super_resolve(input_image, output_image='art.png'):
     # Input image setting
     img = Image.open(input_image).convert('YCbCr')
     y, cb, cr = img.split()
@@ -35,20 +40,21 @@ def super_resolve(input_image, model_path, output_image='art.png'):
     out_img.save(output_image)
     print('Output image saved to', output_image)
 
-
 '''
+import sys
+
 if __name__ == '__main__':
     args = sys.argv[1:]
     if len(args) < 2:
         sys.exit(1)
 
-    input_image = args[0]
-    model_path = 'back/python/model/SUB_model_path.pth'
+    input_image = 'back/python/image.png'
+    model_path = 'SUB_model_path.pth'
 
     resolutions = [4, 16, 64]
 
     for resolution in resolutions:
         output_image = f'art_{resolution}.png'
-        super_resolve(input_image, model_path, output_image)
+        super_resolve(input_image, output_image)
         input_image = output_image
 '''
