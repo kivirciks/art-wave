@@ -17,7 +17,7 @@ def super_resolve(input_image, output_image='art.png'):
 
     # Model import and setting
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = torch.load(model_path, map_location=device)
+    model = torch.load(model_path)  # , map_location=device)
     model = model.to(device)
     data = (ToTensor()(y)).view(1, -1, y.size[1], y.size[0])
     data = data.to(device)
@@ -38,7 +38,7 @@ def super_resolve(input_image, output_image='art.png'):
     out_img = Image.merge('YCbCr', [out_img_y, out_img_cb, out_img_cr]).convert('RGB')
 
     out_img.save(output_image)
-    print('Output image saved to', output_image)
+
 
 '''
 import sys

@@ -1,7 +1,9 @@
 import base64
+import json
 
 from flask import Flask, request
-from back.python.model.resolution import super_resolve
+
+from back.python.SubPixelCNN.resolution import super_resolve
 from back.python.text_to_image import *
 
 # sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
@@ -38,7 +40,7 @@ def generate():
         result['params']['numImages'],
         result['params']['width'],
         result['params']['height']
-        )
+    )
     )
 
 
@@ -51,10 +53,16 @@ def check_generation():
 def super_resolution():
     image = json.loads(request.data)['image']
     write(image)
-    resolution = json.loads(request.data)['resolution']
+    resolution = int(json.loads(request.data)['resolution'])
     output_image = f'art_{resolution}.png'
-
-    super_resolve('image.png', output_image)
+    path = 'image.png'
+    super_resolve(path, output_image)
+    with open(output_image, 'rb') as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+        response = {
+            'image': str(encoded_string).split("'")[1]
+        }
+        return json.dumps(response)
 
 
 app.run()

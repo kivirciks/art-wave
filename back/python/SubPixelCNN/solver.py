@@ -1,12 +1,15 @@
 from __future__ import print_function
-
 from math import log10
 
 import torch
 import torch.backends.cudnn as cudnn
 
-from ..SubPixelCNN.model import Net
-from ..progress_bar import progress_bar
+from back.python.SubPixelCNN.model import Net
+# from python.SubPixelCNN.progress_bar import progress_bar
+# import os
+# import sys
+
+# sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 
 
 class SubPixelTrainer(object):
@@ -39,7 +42,7 @@ class SubPixelTrainer(object):
         self.scheduler = torch.optim.lr_scheduler.MultiStepLR(self.optimizer, milestones=[50, 75, 100], gamma=0.5)
 
     def save(self):
-        model_out_path = "SUB_model_path.pth"
+        model_out_path = "python/SubPixelCNN/SUB_model_path.pth"
         torch.save(self.model, model_out_path)
         print("Checkpoint saved to {}".format(model_out_path))
 
@@ -53,7 +56,7 @@ class SubPixelTrainer(object):
             train_loss += loss.item()
             loss.backward()
             self.optimizer.step()
-            progress_bar(batch_num, len(self.training_loader), 'Loss: %.4f' % (train_loss / (batch_num + 1)))
+            # progress_bar(batch_num, len(self.training_loader), 'Loss: %.4f' % (train_loss / (batch_num + 1)))
 
         print("    Average Loss: {:.4f}".format(train_loss / len(self.training_loader)))
 
@@ -68,7 +71,7 @@ class SubPixelTrainer(object):
                 mse = self.criterion(prediction, target)
                 psnr = 10 * log10(1 / mse.item())
                 avg_psnr += psnr
-                progress_bar(batch_num, len(self.testing_loader), 'PSNR: %.4f' % (avg_psnr / (batch_num + 1)))
+                # progress_bar(batch_num, len(self.testing_loader), 'PSNR: %.4f' % (avg_psnr / (batch_num + 1)))
 
         print("    Average PSNR: {:.4f} dB".format(avg_psnr / len(self.testing_loader)))
 
