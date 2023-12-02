@@ -11,18 +11,19 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-
+    
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Set working directory
-        run: cd client
-
-      - name: Local_Deployment
+      - name: Build project
         run: |
+          cd ./client
           npm install
-          npm run dev
+          npm run build
 
-      - name: Display URL
-        run: echo "Open the following URL: http://localhost:3000/"
+      - name: Deploy to Vercel
+        uses: vercel/actions@v21
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          vercel_token: ${{ secrets.YOUR_VERCEL_TOKEN }}
