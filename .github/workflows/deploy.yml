@@ -15,16 +15,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install
-          pip install flask
-          pip install torch
-          pip install Pillow
-          pip install torchvision
-          pip install numpy
-          pip install warnings
-          pip install glob
-          pip install cv2
-          pip install scikit-image
+          pip install -r requirements.txt
 
       - name: Local_Deployment
         run: npm run dev
