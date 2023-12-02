@@ -49,7 +49,7 @@ class Text2ImageAPI:
             data = response.json()
 
             if data['status'] == 'DONE':
-                return data['images']
+                return data['images'][0]
 
             attempts -= 1
             time.sleep(delay)
