@@ -65,4 +65,9 @@ def super_resolution():
         return json.dumps(response)
 
 
+@app.route('/api/v1/styles')
+def styles():
+    return get_styles()
+
+
 app.run()

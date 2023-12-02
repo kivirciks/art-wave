@@ -4,6 +4,11 @@ import time
 import requests
 
 
+def get_styles():
+    response = requests.get('https://cdn.fusionbrain.ai/static/styles/api').json()
+    return response
+
+
 class Text2ImageAPI:
 
     def __init__(self, url, api_key, secret_key):
