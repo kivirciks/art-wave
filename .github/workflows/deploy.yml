@@ -17,8 +17,8 @@ jobs:
         run: |
           pip install -r requirements.txt
           
-      - name: Set working directory
-        run: cd ./art-wave/client
+      #- name: Set working directory
+      #  run: cd ./art-wave/client
         
       - name: Local_Deployment
         run: npm run dev
