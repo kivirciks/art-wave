@@ -1,7 +1,6 @@
 name: CyberStorm
 on: [workflow_dispatch]
 jobs:
-
   Art_Wave:
     runs-on: windows-latest
     strategy:
@@ -16,9 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          
-      - name: Set working directory
-        run: cd D:\a\art-wave\art-wave\client
-        
+
       - name: Local_Deployment
-        run: npm run dev
+        working-directory: ./client # указываем директорию client
+        run: npm install && npm run dev
