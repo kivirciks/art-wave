@@ -17,5 +17,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Local_Deployment
-        working-directory: ./client # указываем директорию client
+        working-directory: ./client
         run: npm install && npm run dev
+
+      - name: Open browser
+        uses: marvinpinto/actions-open-remote-browser@v1
+        with:
+          url: http://localhost:3000/
