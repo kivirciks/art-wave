@@ -27,5 +27,4 @@ jobs:
           pip install scikit-image
 
       - name: Local_Deployment
-        working-directory: ./art-wave
         run: npm run dev
