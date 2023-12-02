@@ -35,6 +35,7 @@ def generate():
     result = json.loads(request.data)
     id_model = api.get_model()
     return str(api.generate(
+        result['params']['style'],
         result['params']['generateParams']['query'], id_model,
         result['params']['negativePromptUnclip'],
         result['params']['numImages'],

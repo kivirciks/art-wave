@@ -14,7 +14,8 @@ RequestBody:
         },
         "width" : 1024,	 # Ширина изображения для генерации
         "height" : 1024, # Высота изображения для генерации
-	"negativePromptUnclip": "текст"	# Негативный промпт
+	    "negativePromptUnclip": "текст",	# Негативный промпт
+	    "style": "ANIME"
     }
 }
 ResponseBody:
