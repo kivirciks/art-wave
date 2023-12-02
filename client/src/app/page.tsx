@@ -1,8 +1,14 @@
+'use client';
+
 import { FileForm } from '@/widgets/file-form';
 import { PromptForm } from '@/widgets/prompt-form';
 import { Box, Flex, Heading, Text, Container } from '@chakra-ui/react';
+import { useState } from 'react';
 
 export default function Home() {
+  const [image, setImage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   return (
     <Container alignItems={'center'} justifyContent={'center'} display={'flex'} flexDir={'column'}>
       <Box alignItems={'center'} justifyContent={'center'} m={'50px 0'} display={'flex'} flexDir={'column'} gap={'10px'}>
@@ -31,8 +37,8 @@ export default function Home() {
         </Box>
       </Box>
       <Flex gap={'20px'}>
-        <PromptForm />
-        <FileForm />
+        <PromptForm error={error} isLoading={isLoading} setError={setError} setImage={setImage} setIsLoading={setIsLoading} />
+        <FileForm image={image} error={error} isLoading={isLoading} setError={setError} setImage={setImage} setIsLoading={setIsLoading} />
       </Flex>
     </Container>
   );

@@ -29,7 +29,7 @@ export const Input = memo(({ example, label, onChange, value }: Props) => {
         background={'#D1D1D1'}
         padding={'20px 47px'}
         placeholder={example ? `${example}...` : ''}
-        _placeholder={{ color: '#D1D1D1' }}
+        _placeholder={{ color: '#888' }}
         value={value}
         onChange={handleChange}
       />

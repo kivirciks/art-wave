@@ -1,15 +1,14 @@
 import base64
 import json
-
 from flask import Flask, request
+from SubPixelCNN.resolution import super_resolve
+from text_to_image import *
+from flask_cors import CORS
 
-from back.python.SubPixelCNN.resolution import super_resolve
-from back.python.text_to_image import *
-
-# sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})  # Разрешить CORS для всех доменов для маршрутов, начинающихся с /api
 
 api = Text2ImageAPI('https://api-key.fusionbrain.ai/',
                     '0E8304C916C8A0D2A63B6D58820DB253',
@@ -50,7 +49,7 @@ def check_generation():
     return str(api.check_generation(json.loads(request.data)['uuid']))
 
 
-@app.route('/api/v1/super_resolution')
+@app.route('/api/v1/super_resolution',  methods=['POST'])
 def super_resolution():
     image = json.loads(request.data)['image']
     write(image)

@@ -1,22 +1,35 @@
 import { memo, useCallback } from 'react';
-import { Flex, Text } from '@chakra-ui/react';
+import { Flex, Text, Button } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
-import { Api } from '@/shared/api';
 
-interface Props {}
+interface Props {
+  onDropDown: (file: File) => void;
+}
 
-export const Dropzone = memo(({}: Props) => {
-  const onDrop = useCallback((acceptedFiles: any) => {
-    console.log(acceptedFiles);
-    Api.post('', acceptedFiles[0]).catch(console.log);
+export const Dropzone = memo(({ onDropDown }: Props) => {
+  const onDrop = useCallback((acceptedFile: any) => {
+    onDropDown(acceptedFile[0]);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive, isFocused } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
     <Flex {...getRootProps()}>
       <input {...getInputProps()} />
-      {isDragActive ? <Text>Drop the files here ...</Text> : <Text>Drag 'n' drop some files here, or click to select files</Text>}
+      <Button
+        background={'primary.green'}
+        color={'black'}
+        fontWeight={'700'}
+        fontSize={'18px'}
+        width={'276px'}
+        height={'65px'}
+        cursor={'pointer'}
+        p={'20px 36px'}
+        borderRadius={'20px'}
+        variant={'primary'}
+      >
+        Вставить изображение
+      </Button>
     </Flex>
   );
 });

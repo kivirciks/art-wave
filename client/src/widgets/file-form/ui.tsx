@@ -1,44 +1,44 @@
 'use client';
-import { ChangeEvent, memo, useState } from 'react';
-import { Flex, Button, Input } from '@chakra-ui/react';
+import { memo, useState } from 'react';
+import { Flex, Img, Spinner, Button } from '@chakra-ui/react';
 import { Dropzone } from '@/features/dropzone';
+import { encodeImageToBase64 } from './utils';
+import { Api } from '@/shared/api';
+//@ts-ignore
+import { triggerBase64Download } from 'react-base64-downloader';
 
-interface Props {}
+interface Props {
+  error: string | null;
+  setError: (error: string | null) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
+  setImage: (image: string) => void;
+  image: string;
+}
 
-export const FileForm = memo(({}: Props) => {
+export const FileForm = memo(({ error, isLoading, setError, setIsLoading, image, setImage }: Props) => {
   const [file, setFile] = useState<File | null>();
+  const [encodedImage, setEncodedImage] = useState('');
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files?.[0]);
+  const onDropDown = async (file: File) => {
+    setFile(file);
+    const encodeBase64 = await encodeImageToBase64(file);
+    setEncodedImage(encodeBase64);
   };
 
-  const handleFileUpload = async () => {
-    if (!file) {
-      console.error('Файл не выбран');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      const response = await fetch('http://example.com/mudata/123', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Ответ сервера:', result);
-      } else {
-        console.error('Произошла ошибка при загрузке файла');
-      }
-    } catch (error) {
-      console.error('Произошла ошибка:', error);
-    }
+  const upgradeResolution = () => {
+    console.log(encodedImage, file, image);
+    setIsLoading(true);
+    Api.post('/api/v1/super_resolution', { image: encodedImage || image, resolution: 16 }).then(res => {
+      triggerBase64Download(res.data, 'image');
+      setEncodedImage(res.data);
+    });
   };
 
-  console.log(file);
+  const reset = () => {
+    setImage('');
+    setFile(null);
+  };
 
   return (
     <Flex
@@ -49,14 +49,35 @@ export const FileForm = memo(({}: Props) => {
       borderRadius={'20px'}
       border={'2px solid #454545'}
       alignItems={'center'}
-      justifyContent={'center'}
+      justifyContent={file || image ? undefined : 'center'}
       padding={'15px'}
-      background={`url(rectangles.png), lightgray 50% / cover no-repeat`}
+      background={'bg.primary'}
+      pos={'relative'}
     >
-      <Dropzone />
-      <Button disabled={!!file} onClick={handleFileUpload}>
-        Отправить
-      </Button>
+      {isLoading ? (
+        <Spinner thickness="4px" speed="1.4s" emptyColor="rgba(107, 123, 72, 0.77)" color="rgba(211, 253, 122, 1)" size="xl" />
+      ) : image || encodedImage ? (
+        <>
+          <Img
+            mt={'30px'}
+            pos={'absolute'}
+            width={'269'}
+            height={'269'}
+            alt="123"
+            src={`data:image/jpeg;base64, ${image || encodedImage}`}
+          ></Img>
+          <Flex pos={'absolute'} bottom="20px" gap={'10px'}>
+            <Button onClick={upgradeResolution} w={'276px'} borderRadius={'20px'} h={'65px'} variant={'primary'} isDisabled={isLoading}>
+              Улучшить качество и скачать
+            </Button>
+            <Button onClick={reset} w={'276px'} borderRadius={'20px'} h={'65px'} variant={'primary'} background={'#D1D1D1'}>
+              Сбросить
+            </Button>
+          </Flex>
+        </>
+      ) : (
+        <Dropzone onDropDown={onDropDown} />
+      )}
     </Flex>
   );
 });

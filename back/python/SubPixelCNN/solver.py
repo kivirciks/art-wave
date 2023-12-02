@@ -4,7 +4,7 @@ from math import log10
 import torch
 import torch.backends.cudnn as cudnn
 
-from back.python.SubPixelCNN.model import Net
+from model import Net
 # from python.SubPixelCNN.progress_bar import progress_bar
 # import os
 # import sys
