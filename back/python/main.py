@@ -44,7 +44,7 @@ def generate():
     )
 
 
-@app.route('/api/v1/check_generation')
+@app.route('/api/v1/check_generation', methods=['POST'])
 def check_generation():
     return str(api.check_generation(json.loads(request.data)['uuid']))
 
