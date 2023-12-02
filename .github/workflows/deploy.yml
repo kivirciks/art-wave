@@ -24,7 +24,5 @@ jobs:
           npm install
           npm run dev
 
-      - name: Open browser
-        uses: peter-evans/open-external-url@v2
-        with:
-          url: http://localhost:3000/
+      - name: Display URL
+        run: echo "Open the following URL: http://localhost:3000/"
